@@ -2,6 +2,7 @@ import itchat
 import requests
 from get_univ import main
 
+
 def get_response(msg):
     apiUrl = 'http://www.tuling123.com/openapi/api'  # 图灵机器人的api
     data = {
@@ -19,8 +20,7 @@ def get_response(msg):
 @itchat.msg_register(itchat.content.TEXT, isFriendChat=True)
 def print_content(msg):
     try:
-        if itchat.search_friends(userName=msg['FromUserName'])['NickName'] in ['Rain']\
-                or itchat.search_chatrooms(userName=msg['FromUserName'])['NickName'] in ['测试']:
+        if itchat.search_friends(userName=msg['FromUserName'])['NickName'] in ['Rain']:
             if msg['Text'] == '大学排名':
                 return main()
             else:
@@ -31,7 +31,7 @@ def print_content(msg):
         print('其他人消息')
 
 
-# 用于接收来自朋友间的对话消息，如果不用这个，朋友发的消息便不会自动回复
+# 用于接收来自群的对话消息，如果不用这个，群消息便不会自动回复
 @itchat.msg_register(itchat.content.TEXT, isGroupChat=True)
 def print_content(msg):
     try:
