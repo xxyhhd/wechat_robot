@@ -1,46 +1,56 @@
-from __future__ import unicode_literals
-from PIL import ImageGrab
-import os
-import time
-from threading import Timer
-from wxpy import *
+import itchat
+import requests
 from get_univ import main
+from fanyi import baidu
+import re
 
 
+def get_response(msg):
+    apiUrl = 'http://www.tuling123.com/openapi/api'  # 图灵机器人的api
+    data = {
+        'key': 'df34a6f4062c41e39e8239d4c98e809a',  # Tuling Key
+        'info': msg,  # 这是我们发出去的消息
+        'userid': 'wechat-robot',  # 这里你想改什么都可以
+    }
+    # 我们通过如下命令发送一个post请求
+    r = requests.post(apiUrl, data=data).json()
+    print(r.get('text'))
+    return r.get('text')
 
-  # 登录微信
-path = r'D:\a_picture'
+
+def my_response(message):
+    if message == '大学排名':
+        return main()
+    elif re.match(r'翻译：', message):
+        return baidu(message.lstrip('翻译：'))
+    else:
+        print(msg['Text'])
+        return get_response(msg['Text'])
 
 
-# def get_picture():
-#     picture = ImageGrab.grab((800, 200, 1200, 600))
-#     picture_name = time.strftime('%H-%M-%S', time.localtime())
-#     picture.save(os.path.join(path, picture_name+'.jpg'))
-#     return picture_name
-
-
-def send_news():
-    bot = Bot()
+# 用于接收来自朋友间的对话消息，如果不用这个，朋友发的消息便不会自动回复
+@itchat.msg_register(itchat.content.TEXT, isFriendChat=True)
+def print_content(msg):
     try:
-        my_friend = bot.friends().search('许祥雨')[0]
-        # print(my_friend)
-        # name = get_picture()
-        # news = os.path.join(path, name+'.jpg')
-        # print(news)
-        news = main()
-        my_friend.send_image(news)
-        my_friend.send('发送成功')
-        # bot.join()
-        print('发送成功')
-        t = Timer(60, send_news)  # 设置发送间隔
-        t.start()
+        if itchat.search_friends(userName=msg['FromUserName'])['NickName'] in ['Rain']:
+            print(msg['Text'])
+            my_response(msg['Text'])
     except:
-        print('发送失败')
+        print(msg)
+        print('其他人消息')
 
-def nes():
-    a = main()
-    print(type(a))
-    print(a)
 
-if __name__ == '__main__':
-    send_news()
+# 用于接收来自群的对话消息，如果不用这个，群消息便不会自动回复
+@itchat.msg_register(itchat.content.TEXT, isGroupChat=True)
+def print_content(msg):
+    try:
+        if itchat.search_chatrooms(userName=msg['FromUserName'])['NickName'] in ['测试']:
+            print(msg['Text'])
+            my_response(msg['Text'])
+    except:
+        print(msg['Text'])
+        print('其他群消息')
+
+
+itchat.auto_login(True)
+itchat.run()
