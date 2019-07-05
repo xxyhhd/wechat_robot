@@ -36,12 +36,15 @@ def baidu(query):
         'sign': '637195.875066',
         'token': '683809aabb0830223d1fee0bd38cd700'
     }
-    if check_chinese:
-        data = data2
-    else:
-        data = data1
-    res = requests.post(url, data=data, headers=headers)
-    str_json = res.content.decode('utf-8')
+    # if check_chinese(query):
+    #     data = data2
+    # else:
+    #     data = data1
+    res = requests.post(url, data=data1, headers=headers)
+    # str_json = res.content.decode('utf-8')
     myjson = json.loads(res.content)
-    return myjson['trans_result']['data'][0]['dst']
+    print(myjson)
+    # return myjson['trans_result']['data'][0]['dst']
 
+print(baidu('who'))
+# print(baidu(''))
