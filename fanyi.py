@@ -1,6 +1,7 @@
 import requests
 import json
 
+
 url = 'https://fanyi.baidu.com/v2transapi'
 
 headers = {
