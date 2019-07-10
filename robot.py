@@ -2,6 +2,7 @@ import itchat
 import requests
 from get_univ import main
 from fanyi import baidu
+from qiushi.qiubai import QiushiSpider
 import re
 
 
@@ -21,8 +22,10 @@ def get_response(msg):
 def my_response(message):
     if message == '大学排名':
         return main()
-    elif re.match(r'翻译：', message):
-        return baidu(message.lstrip('翻译：'))
+    # elif re.match(r'翻译：', message):
+    #     return baidu(message.lstrip('翻译：'))
+    elif message == '糗事百科':
+        return QiushiSpider().run()
     else:
         print(msg['Text'])
         return get_response(msg['Text'])
