@@ -60,6 +60,6 @@ class QiushiSpider():
 
 
 if __name__ == "__main__":
-    pass
-# spider = QiushiSpider()
-# print(spider.run())
+    # pass
+    spider = QiushiSpider()
+    print(spider.run())

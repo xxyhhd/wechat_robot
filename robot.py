@@ -27,8 +27,7 @@ def my_response(message):
     elif message == '糗事百科':
         return QiushiSpider().run()
     else:
-        print(msg['Text'])
-        return get_response(msg['Text'])
+        return get_response(message)
 
 
 # 用于接收来自朋友间的对话消息，如果不用这个，朋友发的消息便不会自动回复
@@ -37,9 +36,9 @@ def print_content(msg):
     try:
         if itchat.search_friends(userName=msg['FromUserName'])['NickName'] in ['Rain']:
             print(msg['Text'])
-            my_response(msg['Text'])
+            return my_response(msg['Text'])
     except:
-        print(msg)
+        # print(msg)
         print('其他人消息')
 
 
