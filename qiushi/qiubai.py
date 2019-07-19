@@ -44,9 +44,9 @@ class QiushiSpider():
         try:
             import random
             base = base_list[random.randint(0, len(base_list))]
-            author = base.xpath(self.AUTHOR_PATH)[0]
+            author = base.xpath(self.AUTHOR_PATH)[0].strip()
             article = base.xpath(self.ARTICLE_PATH)[
-                0].xpath('string(.)')
+                0].xpath('string(.)').rstrip()
             # print('本文来自糗事百科\n作者:{}{}'.format(author, article))
             # return '1'
             return '本文来自糗事百科\n作者:{}{}'.format(author, article)

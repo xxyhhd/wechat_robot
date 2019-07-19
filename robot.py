@@ -1,7 +1,7 @@
 import itchat
 import requests
 from get_univ import main
-from fanyi import baidu
+import bingfanyi.main
 from qiushi.qiubai import QiushiSpider
 import re
 
